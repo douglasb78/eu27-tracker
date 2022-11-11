@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ranking do EU27</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+	<div class="chart-container" style="position: relative; height:40vh;">
+		<canvas id="chart"/>
+	</div>
+	<script>
+		const chartColor = 'rgb(75, 192, 192)';
+		const ctx = document.getElementById('chart').getContext('2d');
+		myChart = new Chart(ctx, {
+			type: 'line',
+			data:{},
+			options: {
+				plugins: {
+					title: {
+						text: 'EU27 Player Ranking',
+						display: true
+					},
+					legend:{display: false}
+				},
+				responsive: true,
+				aspectRatio: 3,
+				elements: {
+					line: {
+						borderColor: chartColor,
+						cubicInterpolationMode: 'monotone',
+						tension: 0.1
+					}
+				}
+			}
+		});
+		function addCharacters(characternames){
+			characternames.forEach((element) => {
+				myChart.data.datasets.push({
+					label: element,
+				});
+			});
+			myChart.update();
+		}
+		function populateHistory(history){
+			let i = 0;
+			myChart.data.datasets.forEach((element) => {
+				myChart.data.labels = history[0][1];
+				history[i][0].forEach((element2) => {
+					y = history[i][0];
+					myChart.data.datasets[i].data = y;
+				});
+				i+=1;
+			});
+			myChart.update('none');
+		}
+		addCharacters({{ characternames|safe }});
+		populateHistory({{ powerscore_history|safe }})
+		console.log({{ powerscore_history|safe }});
+	</script>
+</body>
+</html>
