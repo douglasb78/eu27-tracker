@@ -25,4 +25,4 @@ if __name__ == '__main__':
     serverstats.get_powerscore_ranking(3, 606)  # baixar o ranking diário
     freezer = Freezer(app)
     freezer.freeze()
-    # app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='localhost', port=5000, debug=True)

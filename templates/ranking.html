@@ -6,11 +6,26 @@
 	<style>
 	body {
 		display: flex;
+		text-align: center;
+		background: #576e49;
+	}
+	.chart-container {
+		border: 1px solid #aaa;
+		border-right-width: 0;
+		background: white;
+		box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.22);
 	}
 	#controls {
 		display: block;
 		padding-top: 4vh;
-		width: 40vh;
+		padding-left: 2vh;
+		width: 45vh;
+		border: 1px solid #aaa;
+		background: white;
+		box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.22);
+	}
+	#minpower,#maxpower {
+		width: 90%;
 	}
 	</style>
 </head>
@@ -20,12 +35,12 @@
 	</div>
 	<div id="controls">
 		<p>Poder mínimo:</p>
-		<input type="range" id="minpower"/>
+		<input type="range" id="minpower" step="1000"/>
 		<p>Poder máximo:</p>
-		<input type="range" id="maxpower"/>
+		<input type="range" id="maxpower" step="1000"/>
 	</div>
 	<script>
-		const chartColor = 'rgb(75, 192, 192)';
+		const chartColor = 'rgb(0, 71, 145)';
 		const ctx = document.getElementById('chart').getContext('2d');
 		myChart = new Chart(ctx, {
 			type: 'line',
@@ -36,7 +51,11 @@
 						text: 'EU27 Player Ranking',
 						display: true
 					},
-					legend:{display: false}
+					legend:{display: false},
+					chartAreaBorder: {
+						borderColor: 'black',
+        				borderWidth: 1
+					}
 				},
 				responsive: true,
 				aspectRatio: 1.5,
@@ -46,17 +65,16 @@
 						cubicInterpolationMode: 'monotone',
 						tension: 0.1,
 						borderWidth: 1,
-					},
-					point: {
-						pointStyle: 'dash'
 					}
 				},
 				scales: {
+					x:{
+
+					},
 					y: {
 						ticks: {
 					    	callback: (value, index, values) => (index == (values.length-1)) ? undefined : value,
-						},
-						type: 'logarithmic'
+						}
 					}
 				}
 			}
@@ -99,14 +117,14 @@
 		document.querySelector('#minpower').value = 0;
 		document.querySelector('#maxpower').value = ps_max;
 
-		document.querySelector('#minpower').addEventListener('change', (event) => {
+		document.querySelector('#minpower').addEventListener('input', (event) => {
 			myChart.options.scales.y.min = document.querySelector('#minpower').value;
-			myChart.update();
+			myChart.update('none');
 		});
 
-		document.querySelector('#maxpower').addEventListener('change', (event) => {
+		document.querySelector('#maxpower').addEventListener('input', (event) => {
 			myChart.options.scales.y.max = document.querySelector('#maxpower').value;
-			myChart.update();
+			myChart.update('none');
 		});
 
 
