@@ -27,7 +27,7 @@ jobs:
       - name: Download rank files
         uses: synergy-au/download-workflow-artifacts-action@6f00b30f91f4ef692efd1019fdf3bddcde540238
         with:
-          workflow-run-id: ${{ github.event.workflow_run.id }}
+          workflow-run-id: ${{ secrets.PREVIOUS_WORKFLOW }}
         continue-on-error: true
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
@@ -65,4 +65,4 @@ jobs:
           github_token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
           repository: "douglasb78/eu27-tracker"
           secret_name: PREVIOUS_WORKFLOW
-          secret_value: ${{ github.event.workflow_run.id }}
+          secret_value: ${{ github.run_number }}
