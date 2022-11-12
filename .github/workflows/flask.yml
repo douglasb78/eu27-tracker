@@ -29,6 +29,10 @@ jobs:
         with:
           workflow-run-id: ${{ secrets.PREVIOUS_WORKFLOW }}
         continue-on-error: true
+      - name: Unzip rank files
+        run:
+          unzip artifacts.zip -d ./.tmp
+        continue-on-error: true
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
         with:
