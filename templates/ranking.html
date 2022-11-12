@@ -104,7 +104,7 @@
 		addCharacters(characternames);
 		populateHistory(ps_history)
 
-		ps_min = ps_history[ps_history.length-1][0][0];
+		ps_min = ps_history[ps_history.length-1][0][0] - 10000;
 		ps_max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
 
 		document.querySelector('#minpower').min = ps_min;
