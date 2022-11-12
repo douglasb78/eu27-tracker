@@ -50,7 +50,7 @@ jobs:
           path: ./.tmp
           retention-days: 90
       - name: Save workflow ID
-        run:
+        run: |
           sudo apt-get install -y gh
           export GITHUB_TOKEN="${{ secrets.ACCESS_SECRETS_TOKEN }}"
           gh secret set PREVIOUS_WORKFLOW --body "${{ github.run_id }}"
