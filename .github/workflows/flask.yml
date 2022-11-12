@@ -50,12 +50,10 @@ jobs:
           path: ./.tmp
           retention-days: 90
       - name: Save workflow ID
-        uses: Skandalik/save-secret@9e20e6ca638cbb0984ec72e280c40dcb3934f978
-        with:
-          github_token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
-          repository: "douglasb78/eu27-tracker"
-          secret_name: PREVIOUS_WORKFLOW
-          secret_value: ${{ github.run_id }}
+        run:
+          sudo apt-get install -y gh
+          export GITHUB_TOKEN="${{ secrets.ACCESS_SECRETS_TOKEN }}"
+          gh secret set PREVIOUS_WORKFLOW --body "${{ github.run_id }}"
       - name: Print the workflow ID
         run: echo ${{ github.run_id }}
   deploy:
