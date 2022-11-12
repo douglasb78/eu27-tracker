@@ -3,10 +3,24 @@
 <head>
 	<title>Ranking do EU27</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+	<style>
+	body {
+		display: flex;
+	}
+	#controls {
+		display: block;
+		padding-top: 4vh;
+	}
+	</style>
 </head>
 <body>
-	<div class="chart-container" style="position: relative; height:40vh;">
+	<div class="chart-container" style="position: relative; width:130vh">
 		<canvas id="chart"/>
+	</div>
+	<div id="controls">
+		Poder mínimo: <input type="range" id="minpower"/>
+		<br/>
+		Poder máximo: <input type="range" id="maxpower"/>
 	</div>
 	<script>
 		const chartColor = 'rgb(75, 192, 192)';
@@ -23,12 +37,20 @@
 					legend:{display: false}
 				},
 				responsive: true,
-				aspectRatio: 3,
+				aspectRatio: 1.5,
 				elements: {
 					line: {
 						borderColor: chartColor,
 						cubicInterpolationMode: 'monotone',
 						tension: 0.1
+					}
+				},
+				scales: {
+					y: {
+						ticks: {
+					    	callback: (value, index, values) => (index == (values.length-1)) ? undefined : value,
+						},
+						type: 'logarithmic'
 					}
 				}
 			}
@@ -53,8 +75,28 @@
 			});
 			myChart.update('none');
 		}
-		addCharacters({{ characternames|safe }});
-		populateHistory({{ powerscore_history|safe }})
+		characternames = {{ characternames|safe }};
+		ps_history = {{ powerscore_history|safe }};
+		addCharacters(characternames);
+		populateHistory(ps_history)
+
+		document.querySelector('#minpower').min = ps_history[ps_history.length-1][0][0];
+		document.querySelector('#minpower').max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
+		document.querySelector('#maxpower').min = ps_history[ps_history.length-1][0][0];
+		document.querySelector('#maxpower').max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
+
+		document.querySelector('#minpower').value = 0; document.querySelector('#maxpower').value = 0;
+
+		document.querySelector('#minpower').addEventListener('change', (event) => {
+			myChart.options.scales.y.min = document.querySelector('#minpower').value;
+			myChart.update();
+		});
+
+		document.querySelector('#maxpower').addEventListener('change', (event) => {
+			myChart.options.scales.y.max = document.querySelector('#maxpower').value;
+			myChart.update();
+		});
+
 		console.log({{ powerscore_history|safe }});
 	</script>
 </body>

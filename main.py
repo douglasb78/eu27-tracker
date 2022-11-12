@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import serverstats
+from flask_frozen import Freezer
 from flask import Flask, render_template
 
 
@@ -21,4 +22,7 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)
+    serverstats.get_powerscore_ranking(3, 606)  # baixar o ranking diário
+    freezer = Freezer(app)
+    freezer.freeze()
+    # app.run(host='localhost', port=5000, debug=True)
