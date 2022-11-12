@@ -1,4 +1,4 @@
-name: Deploy Frozen Flask
+name: Deploy EU27-Tracker
 
 on:
   schedule:
@@ -24,6 +24,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Download rank files
+        uses: actions/download-artifact@v3
+        with:
+          name: rank-files
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
         with:
@@ -35,6 +39,12 @@ jobs:
           path: requirements.txt
       - name: Build the website
         run: python main.py
+      - name: Store data temporarily
+        uses: actions/upload-artifact@v3
+        with:
+          name: rank-files
+          path: ./.tmp
+          retention-days: 90
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
