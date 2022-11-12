@@ -19,19 +19,16 @@ defaults:
     shell: bash
 
 jobs:
-  download_rank_files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Previous Workflows Artifacts
-        uses: synergy-au/download-workflow-artifacts-action@6f00b30f91f4ef692efd1019fdf3bddcde540238
-        with:
-          workflow-run-id: ${{ github.event.workflow_run.id }}
-        continue-on-error: true
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Download rank files
+        uses: synergy-au/download-workflow-artifacts-action@6f00b30f91f4ef692efd1019fdf3bddcde540238
+        with:
+          workflow-run-id: ${{ github.event.workflow_run.id }}
+        continue-on-error: true
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
         with:
@@ -57,10 +54,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-  upload_rank_files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload artifact
+      - name: Upload rank files
         uses: actions/upload-artifact@v3.1.1
         with:
           path: ./.tmp
