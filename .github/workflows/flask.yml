@@ -28,6 +28,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: rank-files
+        continue-on-error: true
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
         with:
