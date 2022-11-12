@@ -54,6 +54,7 @@ jobs:
         with:
           name: PREVIOUS_WORKFLOW
           value: ${{ github.run_id }}
+          repository: "douglasb78/eu27-tracker"
           token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
   deploy:
     environment:
