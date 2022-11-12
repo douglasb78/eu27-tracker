@@ -10,6 +10,7 @@
 	#controls {
 		display: block;
 		padding-top: 4vh;
+		width: 40vh;
 	}
 	</style>
 </head>
@@ -18,9 +19,10 @@
 		<canvas id="chart"/>
 	</div>
 	<div id="controls">
-		Poder mínimo: <input type="range" id="minpower"/>
-		<br/>
-		Poder máximo: <input type="range" id="maxpower"/>
+		<p>Poder mínimo:</p>
+		<input type="range" id="minpower"/>
+		<p>Poder máximo:</p>
+		<input type="range" id="maxpower"/>
 	</div>
 	<script>
 		const chartColor = 'rgb(75, 192, 192)';
@@ -42,7 +44,11 @@
 					line: {
 						borderColor: chartColor,
 						cubicInterpolationMode: 'monotone',
-						tension: 0.1
+						tension: 0.1,
+						borderWidth: 1,
+					},
+					point: {
+						pointStyle: 'dash'
 					}
 				},
 				scales: {
@@ -80,12 +86,18 @@
 		addCharacters(characternames);
 		populateHistory(ps_history)
 
-		document.querySelector('#minpower').min = ps_history[ps_history.length-1][0][0];
-		document.querySelector('#minpower').max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
-		document.querySelector('#maxpower').min = ps_history[ps_history.length-1][0][0];
-		document.querySelector('#maxpower').max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
+		ps_min = ps_history[ps_history.length-1][0][0];
+		ps_max = ps_history[0][0][ps_history[0][0].length - 1] + 10000;
 
-		document.querySelector('#minpower').value = 0; document.querySelector('#maxpower').value = 0;
+		document.querySelector('#minpower').min = ps_min;
+		document.querySelector('#minpower').max = ps_max;
+		document.querySelector('#maxpower').min = ps_min;
+		document.querySelector('#maxpower').max = ps_max;
+		myChart.options.scales.y.min = ps_min;
+		myChart.options.scales.y.max = ps_max;
+
+		document.querySelector('#minpower').value = 0;
+		document.querySelector('#maxpower').value = ps_max;
 
 		document.querySelector('#minpower').addEventListener('change', (event) => {
 			myChart.options.scales.y.min = document.querySelector('#minpower').value;
@@ -96,6 +108,9 @@
 			myChart.options.scales.y.max = document.querySelector('#maxpower').value;
 			myChart.update();
 		});
+
+
+		myChart.update('none');
 
 		console.log({{ powerscore_history|safe }});
 	</script>
