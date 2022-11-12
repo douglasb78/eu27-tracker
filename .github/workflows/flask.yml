@@ -3,26 +3,21 @@ name: Deploy Frozen Flask
 on:
   schedule:
     - cron: '0 18 * * *'  # 15 pm brasília
-  workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
-# Default to bash
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +29,7 @@ jobs:
           python-version: 3.9
           cache: pip
       - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v4.0.0
         with:
           path: requirements.txt
       - name: Build the website
