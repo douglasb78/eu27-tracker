@@ -50,12 +50,14 @@ jobs:
           path: ./.tmp
           retention-days: 90
       - name: Save workflow ID
-        uses: maclarel/actions-set-secret@f22bd90176d1d18991ec3e08d5ec6ad30cbf9426
+        uses: Skandalik/save-secret@9e20e6ca638cbb0984ec72e280c40dcb3934f978
         with:
-          name: PREVIOUS_WORKFLOW
-          value: ${{ github.run_id }}
+          github_token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
           repository: "douglasb78/eu27-tracker"
-          token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
+          secret_name: PREVIOUS_WORKFLOW
+          secret_value: ${{ github.run_id }}
+      - name: Print the workflow ID
+        run: echo ${{ github.run_id }}
   deploy:
     environment:
       name: github-pages
