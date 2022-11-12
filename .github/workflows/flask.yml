@@ -22,15 +22,11 @@ jobs:
   download_rank_files:
     runs-on: ubuntu-latest
     steps:
-      - name: Download from Google Drive
-        uses: satackey/action-google-drive@c6de6280a30b95db6c37c537328f902563974f1e
+      - name: Download Previous Workflows Artifacts
+        uses: synergy-au/download-workflow-artifacts-action@6f00b30f91f4ef692efd1019fdf3bddcde540238
         with:
-          # skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-          download-from: /github/eu27-tracker/.tmp
-          download-to: ./.tmp
-          # For those who set up Google Drive API client ID and secret themselves
-          google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
-          google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          workflow-run-id: ${{ github.event.workflow_run.id }}
+        continue-on-error: true
   build:
     runs-on: ubuntu-latest
     steps:
@@ -64,12 +60,15 @@ jobs:
   upload_rank_files:
     runs-on: ubuntu-latest
     steps:
-        - name: Upload to Google Drive
-          uses: satackey/action-google-drive@c6de6280a30b95db6c37c537328f902563974f1e
-          with:
-            # skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-            upload-from: ./.tmp
-            upload-to: /github/eu27-tracker/.tmp
-            # For those who set up Google Drive API client ID and secret themselves
-            google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
-            google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          path: ./.tmp
+          retention-days: 90
+      - name: Save workflow ID
+        uses: Skandalik/save-secret@9e20e6ca638cbb0984ec72e280c40dcb3934f978
+        with:
+          github_token: ${{ secrets.ACCESS_SECRETS_TOKEN }}
+          repository: "douglasb78/eu27-tracker"
+          secret_name: PREVIOUS_WORKFLOW
+          secret_value: ${{ github.event.workflow_run.id }}
