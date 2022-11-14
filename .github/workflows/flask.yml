@@ -4,10 +4,6 @@ on:
   schedule:
     - cron: '0 18 * * *'  # 15 pm brasília
   workflow_dispatch:
-  push:
-    branches:
-    - main
-    - release/*
 
 permissions:
   contents: read
