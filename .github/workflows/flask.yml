@@ -2,7 +2,7 @@ name: Deploy EU27-Tracker
 
 on:
   schedule:
-    - cron: '20 17 * * *'  # 14h20 pm brasília
+    - cron: '00 18 * * *'  # 14h20 pm brasília
   workflow_dispatch:
 
 permissions:
