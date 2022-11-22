@@ -53,11 +53,15 @@ def get_powerscore_history(name):
         filepath = f'.tmp/{file.name}'
         filedate = datetime.strptime(file.name.split('_')[0], "%Y%m%d")
         cached_results = bz2.open(filepath, 'rb').readlines()
+        foundname_flag = False
         for line in range(0, len(cached_results), 3):
             charactername = cached_results[line].decode('raw_unicode_escape').strip()
             if name in charactername:
                 powerscores.append(int(cached_results[line + 2].decode('raw_unicode_escape').strip()))
-                dates.append(str(filedate))
+                foundname_flag = True
+        if foundname_flag is False:
+            powerscores.append(None)
+        dates.append(str(filedate))
     return [powerscores, dates]
 
 
