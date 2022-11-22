@@ -62,7 +62,7 @@ def get_powerscore_history(name):
         if foundname_flag is False:
             powerscores.append(None)
         dates.append(str(filedate))
-    powerscores, dates = (list(t) for t in zip(*sorted(zip(powerscores, dates))))
+    powerscores, dates = zip(*sorted(zip(powerscores, dates), key=lambda x: x[0]))
     return [powerscores, dates]
 
 
