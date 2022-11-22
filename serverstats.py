@@ -49,6 +49,8 @@ def get_powerscore_history(name):
     p = Path('.tmp/').glob('*')
     powerscores = []
     dates = []
+    powerscores.append(0)
+    dates.append('20221110')
     for file in p:
         filepath = f'.tmp/{file.name}'
         filedate = datetime.strptime(file.name.split('_')[0], "%Y%m%d")
