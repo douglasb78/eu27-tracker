@@ -9,4 +9,4 @@ A website to monitor the powerscore ranking of EU27 players.
 It can be altered to work with any other MIR4 official servers.
 #### [>🔗 Click here to visit it.<](https://douglasb78.github.io/eu27-tracker/)
 
-![](https://i.imgur.com/y5iIZMY.png)
+![](https://i.imgur.com/AkRzcab.png)
