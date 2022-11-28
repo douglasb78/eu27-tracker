@@ -5,8 +5,13 @@
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=flat-square&logo=flask&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white)
 
-A website to monitor the powerscore ranking of EU27 players.
-It can be altered to work with any other MIR4 official servers.
+A website to monitor the powerscore ranking of EU27 players. It can be altered to work with any other MIR4 official servers.
 #### [>🔗 Click here to visit it.<](https://douglasb78.github.io/eu27-tracker/)
 
 ![](https://i.imgur.com/AkRzcab.png)
+
+### TODO:
+
+- [ ] Make it repeat values if the current day powerscore is lower than the previous one.
+
+<sub>(Some players forget to pick the right spirits and magic stones set, polluting the graph.)</sub>
